@@ -1,0 +1,800 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Coiny&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Viga&display=swap" rel="stylesheet">
+
+<style>
+    header {
+        padding: 7px;
+        background: #1abc9c;
+        color: white;
+        display: flex;
+        position:fixed;
+        width: 100%;
+        z-index: 1;
+    }
+
+    .title {
+        font-size: 38px;
+        color: #9EF8EE;
+        font-family: "Coiny", system-ui;
+    }
+
+    #page {
+        margin-left: 20px;
+        padding: 14px;
+        font-family: "Viga", sans-serif;
+        display: flex;
+    }
+
+    .hom, .comp, .cat {
+        font-size: 17px;
+        background: #1abc9c;
+    }
+
+    .chk {
+        margin-top: 30px;
+        font-size: 17px;
+        background: #89D99D;  
+        font-family: "Viga", sans-serif;
+    }
+
+    #search {
+        width: 500px;
+        margin-left: auto;
+        padding: 15px;
+        display: flex;
+    }
+
+    img {
+        width: 100%;
+    }
+
+    #icon, #icon2 {
+        margin-left: auto;
+    }
+
+    .mag, .cart {
+        width: 30px;
+    }
+
+    .dropdown {
+        padding: 3px;
+    }
+
+    #cart {
+        margin-left: auto;
+        background-color: #FFFFFF;
+        width: 500px;
+        height: auto    ;
+        border-radius: 25px;
+        padding: 30px;
+        border-color: #D8EEF2;
+        border-style: solid;
+        display: none;
+        z-index: 2;
+        position: fixed; right: 0;
+        margin-top: 90px;
+    }
+
+    h1, h2 {
+        font-family: "Cal Sans", sans-serif;
+    }
+
+    #decision {
+        display: flex;
+    }
+
+    .shp {
+        margin-left: auto;
+        margin-top: 30px;
+        font-size: 17px;
+        font-family: "Viga", sans-serif;
+    }
+
+    #listitems {
+        font-family: "Montserrat", sans-serif;
+    }
+
+    #catalog {
+        padding: 50px;
+    }
+
+    .row2, .row3, .row4, .row5 {
+        margin-top: 35px;
+    }
+
+    .row1 {
+        margin-top: 100px;
+    }
+
+    #checkoutForm {
+        margin: 0;
+        margin-left: 25%;
+        position: fixed;
+        width: 1000px;
+        margin-top: 1000px;
+        background-color: #efefef;
+        border-radius: 25px;
+        padding: 50px;
+        font-family: "Montserrat", sans-serif;
+    }
+
+    #checktitle {
+        position: fixed;
+        margin-top: 130px;
+        display: none;
+    }
+
+    .chktitle {
+        margin-left: 835px;
+        width: 250px;
+        font-size: 60px;
+        color: #9EF8EE;
+        font-family: "Coiny", system-ui;
+    }
+
+    #company {
+        margin-left: 460px;
+        width: 1000px;
+        position: absolute;
+        margin-top: 230px;
+        display: none;
+    }
+
+    #devs, #refs {
+        text-align: center;
+    }
+</style>
+</head>
+<body>
+    <script>
+    var favDishes = [
+        'YumYum Pizza - ₱700.00', 
+        'Double Cheeseburger - ₱250.00', 
+        'Shrimp Alfredo - ₱150.00', 
+        'Chicken Sandwich - ₱950.00', 
+        'BBQ Baby - ₱390.00'
+    ];
+
+    var toggle = 'closed';
+
+    function showCart() {
+        if (toggle == 'closed') {
+            document.getElementById('cart').style.display = "table";
+            toggle = 'open';
+        }
+        
+        else {
+            document.getElementById('cart').style.display = "none";
+            toggle = 'closed';
+        }
+    }
+
+    function hideCart() {
+        if (toggle == 'checkingout') {
+            document.getElementById('catalog').style.display = "table";
+            document.getElementById('checktitle').style.display = "none";
+            document.getElementById('checkoutForm').style.marginTop = "1000px";
+            toggle = 'open';
+        }
+
+        else if (toggle == 'open') {
+            document.getElementById('cart').style.display = "none";
+            document.getElementById('checktitle').style.display = "none";
+            document.getElementById('catalog').style.display = "table";
+            document.getElementById('checkoutForm').style.marginTop = "1000px";
+            toggle = 'closed';
+        }
+    }
+
+    function checkOut() {
+        document.getElementById('cart').style.display = "none";
+        document.getElementById('catalog').style.display = "none";
+        document.getElementById('checktitle').style.display = "inline";
+        document.getElementById('checkoutForm').style.marginTop = "250px";
+        document.getElementById('company').style.display = "none";
+
+        toggle = 'checkingout';
+        updateCart();
+    }
+</script>
+
+<script>
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    function addToCart(name, price) 
+    {
+        cart.push({ prod_name: name, prod_price: price });
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCart();
+    }
+
+    function removeFromCart(index) 
+    {
+        cart.splice(index, 1);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCart();
+    }
+
+    function updateCart() 
+    {
+        var cartList = document.getElementById('cart-items');
+        var cartView = document.getElementById('cart-items-view');
+        var cartTotal = document.getElementById('cart-total');
+        cartList.innerHTML = '';
+        cartView.innerHTML = '';
+        let total = 0;
+
+        cart.forEach((item, index) => 
+        {
+            total += item.prod_price;
+            const li = document.createElement('li');
+            li.className = 'list-group-item d-flex justify-content-between align-items-center';
+            li.innerHTML = `${item.prod_name} - ₱${item.prod_price} <button class='btn btn-danger btn-sm' onclick='removeFromCart(${index})'>Remove</button>`;
+            cartList.appendChild(li);
+        });
+
+        cart.forEach((item, index) => 
+        {
+            const li = document.createElement('li');
+            li.className = 'list-group-item d-flex justify-content-between align-items-center';
+            li.innerHTML = `${item.prod_name} - ₱${item.prod_price} <button class='btn btn-danger btn-sm' onclick='removeFromCart(${index})'>Remove</button>`;
+            cartView.appendChild(li);
+        });
+
+        cartTotal.textContent = `Total: ₱${total.toFixed(2)}`;
+    }
+
+    function updateOrderField() 
+    {
+        document.getElementById('cust_order').value = JSON.stringify(cart);
+    }
+
+    updateCart();
+</script>
+
+<script>
+    function showBlankets() {
+        document.getElementById('catalog').style.display = "table";
+        let elements = document.getElementsByClassName('tshirt');
+        let elements1 = document.getElementsByClassName('keychain');
+        let elements2 = document.getElementsByClassName('totebag');
+        let elements3 = document.getElementsByClassName('blanket');
+        document.getElementById('company').style.display = "none";
+
+        for (let i = 0; i < elements.length; i++) {
+            elements[i].style.display = 'none';
+        }
+
+        for (let i = 0; i < elements1.length; i++) {
+            elements1[i].style.display = 'none';
+        }
+
+        for (let i = 0; i < elements2.length; i++) {
+            elements2[i].style.display = 'none';
+        }
+
+        for (let i = 0; i < elements3.length; i++) {
+            elements3[i].style.display = 'inline';
+        }
+    }
+
+    function showTshirts() {
+        document.getElementById('catalog').style.display = "table";
+        let elements = document.getElementsByClassName('tshirt');
+        let elements1 = document.getElementsByClassName('keychain');
+        let elements2 = document.getElementsByClassName('totebag');
+        let elements3 = document.getElementsByClassName('blanket');
+        document.getElementById('company').style.display = "none";
+
+        for (let i = 0; i < elements.length; i++) {
+            elements[i].style.display = 'inline';
+        }
+
+        for (let i = 0; i < elements1.length; i++) {
+            elements1[i].style.display = 'none';
+        }
+
+        for (let i = 0; i < elements2.length; i++) {
+            elements2[i].style.display = 'none';
+        }
+
+        for (let i = 0; i < elements3.length; i++) {
+            elements3[i].style.display = 'none';
+        }
+    }
+
+    function showKeychains() {
+        document.getElementById('catalog').style.display = "table";
+        let elements = document.getElementsByClassName('tshirt');
+        let elements1 = document.getElementsByClassName('keychain');
+        let elements2 = document.getElementsByClassName('totebag');
+        let elements3 = document.getElementsByClassName('blanket');
+        document.getElementById('company').style.display = "none";
+
+        for (let i = 0; i < elements.length; i++) {
+            elements[i].style.display = 'none';
+        }
+
+        for (let i = 0; i < elements1.length; i++) {
+            elements1[i].style.display = 'inline';
+        }
+
+        for (let i = 0; i < elements2.length; i++) {
+            elements2[i].style.display = 'none';
+        }
+
+        for (let i = 0; i < elements3.length; i++) {
+            elements3[i].style.display = 'none';
+        }
+    }
+
+    function showTotebags() {
+        document.getElementById('catalog').style.display = "table";
+        let elements = document.getElementsByClassName('tshirt');
+        let elements1 = document.getElementsByClassName('keychain');
+        let elements2 = document.getElementsByClassName('totebag');
+        let elements3 = document.getElementsByClassName('blanket');
+        document.getElementById('company').style.display = "none";
+
+        for (let i = 0; i < elements.length; i++) {
+            elements[i].style.display = 'none';
+        }
+
+        for (let i = 0; i < elements1.length; i++) {
+            elements1[i].style.display = 'none';
+        }
+
+        for (let i = 0; i < elements2.length; i++) {
+            elements2[i].style.display = 'inline';
+        }
+
+        for (let i = 0; i < elements3.length; i++) {
+            elements3[i].style.display = 'none';
+        }
+    }
+
+    function showAll() {
+        document.getElementById('catalog').style.display = "table";
+        document.getElementById('checkoutForm').style.marginTop = "1000px";
+        document.getElementById('checktitle').style.display = "none";
+        document.getElementById('company').style.display = "none";
+        let elements = document.getElementsByClassName('tshirt');
+        let elements1 = document.getElementsByClassName('keychain');
+        let elements2 = document.getElementsByClassName('totebag');
+        let elements3 = document.getElementsByClassName('blanket');
+
+        for (let i = 0; i < elements.length; i++) {
+            elements[i].style.display = 'inline';
+        }
+
+        for (let i = 0; i < elements1.length; i++) {
+            elements1[i].style.display = 'inline';
+        }
+
+        for (let i = 0; i < elements2.length; i++) {
+            elements2[i].style.display = 'inline';
+        }
+
+        for (let i = 0; i < elements3.length; i++) {
+            elements3[i].style.display = 'inline';
+        }
+    }
+
+    function company() {
+        document.getElementById('catalog').style.display = "none";
+        document.getElementById('checkoutForm').style.marginTop = "1000px";
+        document.getElementById('checktitle').style.display = "none";
+        document.getElementById('company').style.display = "flex";
+    }
+    </script>
+
+    <header>
+        <div id="home">
+            <button type="button" class="btn title">SWIPR</button>
+        </div>
+
+        <div id="page">
+            <button type="button" class="btn hom" onclick="showAll()">Home</button>
+            <button type="button" class="btn comp" onclick="company()">About the Company</button>
+            <div class="dropdown">
+                <button class="btn cat dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Categories
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#" onclick="showBlankets()">Blankets</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="showKeychains()">Keychains</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="showTshirts()">T-Shirts</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="showTotebags()">Tote Bags</a></li>
+                </ul>
+              </div>
+        </div>
+
+        <div id="search" class="input">
+            <div id="icon">
+                <button type="button" class="btn hom"><img class="mag" src="search.png" alt=""></button> 
+            </div>
+            <input type="text" class="form-control" placeholder="Search" aria-label="Username">
+            <div id="icon2">
+                <button type="button" class="btn hom" onclick="showCart()"><img class="cart" src="cart.png" alt=""></button> 
+            </div>
+        </div>
+    </header>
+    
+    <div class="shadow" id="cart">
+        <h1>My Shopping Cart</h1> <br>
+        <ul id="cart-items" class="list-group mb-3"></ul>
+
+        <div id="decision">
+            <button type="button" class="btn chk" onclick="checkOut()">CHECKOUT</button>
+            <button type="button" class="btn shp" onclick="hideCart()">Back to Shopping</button>
+        </div>
+    </div>
+
+    
+
+    <div id="company" class="row row-cols-1 row-cols-md g-4">
+
+        <div class="col-12">
+            <h1 id="devs" class="col-12">Developers</h1>
+        </div>
+
+        
+
+        <div class="col-4">
+          <div class="card">
+            <img src="DEVS/pau.jpg" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title"><b>Paulo Concepcion</b></h5>
+              <p class="card-text">•Product Designer <br> •Price Setter <br> •Aesthetic Manager</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="card">
+            <img src="DEVS/jadon.JPG" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title"><b>Jadon Verano</b></h5>
+              <p class="card-text">•Web Designer <br> •Website Layout <br> •Visual Javascript</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="card">
+            <img src="DEVS/matthan.jpg" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title"><b>Matthan Hernandez</b></h5>
+              <p class="card-text">•Javascript Manager <br> •Web Publisher <br> •Code Management</p>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col-12">
+            <h1 id="refs">References</h1>
+        </div>
+
+        <div class="col-6">
+            <div class="card">
+              <img src="Sources/card.jfif" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title"><b>Card Layout</b></h5>
+                <p class="card-text">Sourced from the Bootstrap Website <br>getbootstrap.com</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="card">
+              <img src="Sources/class.jfif" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title"><b>Change Style by Class Name</b></h5>
+                <p class="card-text">Sourced from stackoverflow.com</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-4">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title"><b>Introduction to DOM</b></h5>
+                <p class="card-text">Sourced from https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title"><b>Working With Objects</b></h5>
+                <p class="card-text">Sourced from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_objects    </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title"><b>Column Layout</b></h5>
+                <p class="card-text">Sourced from The Bootstrap Website https://getbootstrap.com/docs/5.3/getting-started/introduction/ OR <br>getbootstrap.com</p>
+              </div>
+            </div>
+          </div>
+    </div>
+
+    <div id="checktitle">
+        <button type="button" class="btn chktitle">SWIPR</button>
+    </div>
+    <div id="checkoutForm" class="row shadow">
+        
+
+        <div id="cartView" class="col">
+
+            <h2>Shopping Cart</h2>
+            <ul id="cart-items-view" class="list-group mb-3"></ul>
+            <h5 id="cart-total">Total: ₱0.00</h5>
+
+        </div>
+
+        <div id="customerDetails" class="col">
+            <form action="http://47.129.9.35/cs3/checkout.php" method="POST" onsubmit="updateOrderField()">
+
+                <h2>Delivery Details</h2>
+                Name <br> <input type="text" class="form-control" name="cust_name" required> <br>
+                Email <br> <input type="email" class="form-control" name="cust_email" required> <br>
+                Delivery Address <br> <input type="text" class="form-control" name="cust_addr" required> <br>
+                <input type="hidden" name="cust_order" id="cust_order">
+                <input type="submit" value="Place Order" class="btn btn-primary mt-2">
+
+            </form>
+        </div>
+    </div>
+
+    <div id="catalog">
+        <div class="row row1">
+            <div class="col-sm-3 mb-3 mb-sm-0 blanket">
+                <div class="card">
+                    <img src="ITEMS/Blanket1.png" class="card-img-top" alt="">
+                    <div class="card-body">
+                        <h5 class="card-title">Jadonklet</h5>
+                        <p class="card-text">₱1,200.00</p>
+                        <a href="#" class="btn btn-primary" onclick="addToCart('Jadonklet', 1200)">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-3 mb-3 mb-sm-0 blanket">
+                <div class="card">
+                    <img src="ITEMS/Blanket2.png" class="card-img-top" alt="">
+                    <div class="card-body">
+                        <h5 class="card-title">Cool Kid Blanket</h5>
+                        <p class="card-text">₱1,200.00</p>
+                        <a href="#" class="btn btn-primary" onclick="addToCart('Cool Kid Blanket', 1200)">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-3 mb-3 mb-sm-0 blanket">
+                <div class="card">
+                    <img src="ITEMS/Blanket3.png" class="card-img-top" alt="">
+                    <div class="card-body">
+                        <h5 class="card-title">Fruit Ninja</h5>
+                        <p class="card-text">₱1,200.00</p>
+                        <a href="#" class="btn btn-primary" onclick="addToCart('Fruit Ninja', 1200)">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-3 mb-3 mb-sm-0 blanket">
+                <div class="card">
+                    <img src="ITEMS/Blanket4.png" class="card-img-top" alt="">
+                    <div class="card-body">
+                        <h5 class="card-title">Hot Lava Chicken</h5>
+                        <p class="card-text">₱1,400.00</p>
+                        <a href="#" class="btn btn-primary" onclick="addToCart('Hot Lava Chicken', 1400)">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row row2">
+            <div class="col-sm-3 mb-3 mb-sm-0 blanket">
+                <div class="card">
+                    <img src="ITEMS/Blanket5.png" class="card-img-top" alt="">
+                    <div class="card-body">
+                        <h5 class="card-title">Vroom Blanket</h5>
+                        <p class="card-text">₱1,400.00</p>
+                        <a href="#" class="btn btn-primary" onclick="addToCart('Vroom Blanket', 1400)">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-3 mb-3 mb-sm-0 tshirt">
+                <div class="card">
+                    <img src="ITEMS/Tshirt1.png" class="card-img-top" alt="">
+                    <div class="card-body">
+                        <h5 class="card-title">Ghoster</h5>
+                        <p class="card-text">₱550.00</p>
+                        <a href="#" class="btn btn-primary" onclick="addToCart('Ghoster', 550)">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-3 mb-3 mb-sm-0 tshirt">
+                <div class="card">
+                    <img src="ITEMS/Tshirt2.png" class="card-img-top" alt="">
+                    <div class="card-body">
+                        <h5 class="card-title">Fly Me, Raccoon</h5>
+                        <p class="card-text">₱550.00</p>
+                        <a href="#" class="btn btn-primary" onclick="addToCart('Fly Me, Raccoon', 550)">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-3 mb-3 mb-sm-0 tshirt">
+                <div class="card">
+                    <img src="ITEMS/Tshirt3.png" class="card-img-top" alt="">
+                    <div class="card-body">
+                        <h5 class="card-title">Teddy Brick</h5>
+                        <p class="card-text">₱550.00</p>
+                        <a href="#" class="btn btn-primary" onclick="addToCart('Teddy Brick', 550)">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row row3">
+            <div class="col-sm-3 mb-3 mb-sm-0 tshirt">
+                <div class="card">
+                    <img src="ITEMS/Tshirt4.png" class="card-img-top" alt="">
+                    <div class="card-body">
+                        <h5 class="card-title">Paradise Garden</h5>
+                        <p class="card-text">₱600.00</p>
+                        <a href="#" class="btn btn-primary" onclick="addToCart('Paradise Garden', 600)">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-3 mb-3 mb-sm-0 tshirt">
+                <div class="card">
+                    <img src="ITEMS/Tshirt5.png" class="card-img-top" alt="">
+                    <div class="card-body">
+                        <h5 class="card-title">Alien Invasion</h5>
+                        <p class="card-text">₱600.00</p>
+                        <a href="#" class="btn btn-primary" onclick="addToCart('Alien Invasion', 600)">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-3 mb-3 mb-sm-0 keychain">
+                <div class="card">
+                    <img src="ITEMS/Keychain1.png" class="card-img-top" alt="">
+                    <div class="card-body">
+                        <h5 class="card-title">Lover Platypus</h5>
+                        <p class="card-text">₱100.00</p>
+                        <a href="#" class="btn btn-primary" onclick="addToCart('Lover Platypus', 100)">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-3 mb-3 mb-sm-0 keychain">
+                <div class="card">
+                    <img src="ITEMS/Keychain2.png" class="card-img-top" alt="">
+                    <div class="card-body">
+                        <h5 class="card-title">Capybook Smart</h5>
+                        <p class="card-text">₱100.00</p>
+                        <a href="#" class="btn btn-primary" onclick="addToCart('Capybook Smart', 100)">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row row4">
+            <div class="col-sm-3 mb-3 mb-sm-0 keychain">
+                <div class="card">
+                    <img src="ITEMS/Keychain3.png" class="card-img-top" alt="">
+                    <div class="card-body">
+                        <h5 class="card-title">Ice Penguin</h5>
+                        <p class="card-text">₱100.00</p>
+                        <a href="#" class="btn btn-primary" onclick="addToCart('Ice Penguin', 100)">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-3 mb-3 mb-sm-0 keychain">
+                <div class="card">
+                    <img src="ITEMS/Keychain4.png" class="card-img-top" alt="">
+                    <div class="card-body">
+                        <h5 class="card-title">Frenemies</h5>
+                        <p class="card-text">₱100.00</p>
+                        <a href="#" class="btn btn-primary" onclick="addToCart('Frenemies', 100)">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-3 mb-3 mb-sm-0 keychain">
+                <div class="card">
+                    <img src="ITEMS/Keychain5.png" class="card-img-top" alt="">
+                    <div class="card-body">
+                        <h5 class="card-title">Sharkboy</h5>
+                        <p class="card-text">₱100.00</p>
+                        <a href="#" class="btn btn-primary" onclick="addToCart('Sharkboy', 100)">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-3 mb-3 mb-sm-0 totebag">
+                <div class="card">
+                    <img src="ITEMS/Totebag1.png" class="card-img-top" alt="">
+                    <div class="card-body">
+                        <h5 class="card-title">Swipr OG Bag (White)</h5>
+                        <p class="card-text">₱375.00</p>
+                        <a href="#" class="btn btn-primary" onclick="addToCart('Swipr OG Bag (White)', 375)">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row row5">
+            <div class="col-sm-3 mb-3 mb-sm-0 totebag">
+                <div class="card">
+                    <img src="ITEMS/Totebag2.png" class="card-img-top" alt="">
+                    <div class="card-body">
+                        <h5 class="card-title">Swipr OG Bag (Black)</h5>
+                        <p class="card-text">₱375.00</p>
+                        <a href="#" class="btn btn-primary" onclick="addToCart('Swipr OG Bag (Black)', 375)">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-3 mb-3 mb-sm-0 totebag">
+                <div class="card">
+                    <img src="ITEMS/Totebag3.png" class="card-img-top" alt="">
+                    <div class="card-body">
+                        <h5 class="card-title">Tote-Ally Sweet (Vanilla)</h5>
+                        <p class="card-text">₱375.00</p>
+                        <a href="#" class="btn btn-primary" onclick="addToCart('Tote-Ally Sweet (Vanilla)', 375)">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-3 mb-3 mb-sm-0 totebag">
+                <div class="card">
+                    <img src="ITEMS/Totebag4.png" class="card-img-top" alt="">
+                    <div class="card-body">
+                        <h5 class="card-title">Tote-Ally Sweet (Chocolate)</h5>
+                        <p class="card-text">₱375.00</p>
+                        <a href="#" class="btn btn-primary" onclick="addToCart('Tote-Ally Sweet (Chocolate)', 375)">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-3 mb-3 mb-sm-0 totebag">
+                <div class="card">
+                    <img src="ITEMS/Totebag5.png" class="card-img-top" alt="">
+                    <div class="card-body">
+                        <h5 class="card-title">Meerngo Kat</h5>
+                        <p class="card-text">₱375.00</p>
+                        <a href="#" class="btn btn-primary" onclick="addToCart('Meerngo Kat', 375)">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        updateCart();
+    </script>
+    
+</body>
+</html>
